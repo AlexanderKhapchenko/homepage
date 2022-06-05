@@ -1,3 +1,18 @@
+@font-face {
+  font-family: Montserrat;
+  src: url(assets/fonts/Montserrat.ttf);
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto.ttf);
+}
+
+@font-face {
+  font-family: CascadiaCode;
+  src: url(assets/fonts/CascadiaCode.ttf);
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -8,13 +23,16 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	line-height: 1.5;
 
+	--body-background: #fff;
+	--resume-background: #eaeaea;
 	--primary-text-color: #181820;
 	--secondary-text-color: #5c5c62;
 	--durability-text-color: #6a737d9c;
 	--icon-color: #6a737d;
-	--border-color: #ff9a0045;
-	--text-decoration-color: #ff9a00;
-	--background-decoration-color: #372F85;
+	--border-color: #ff9900b1;
+
+	background: var(--body-background);
+	transition: 1s;
 }
 
 .container {
@@ -41,7 +59,7 @@ body {
 	padding: 30px 0;
 	max-width: 900px;
 	position: relative;
-	background: #fff;
+	background: var(--resume-background);
 	border-radius: var(--border-width);
 }
 
@@ -108,7 +126,7 @@ body {
 .contact-info__header {
 	color: var(--primary-text-color);
 	margin-bottom: 15px;
-	text-decoration-color: var(--text-decoration-color);
+	text-decoration-color: var(--border-color);
 	text-decoration-line: underline;
 }
 
@@ -132,6 +150,14 @@ body {
 	text-decoration: none;
 	display: flex;
 	justify-content: start;
+}
+
+.contact-info__item:hover {
+	color: var(--primary-text-color);
+}
+
+.contact-info__item:hover path {
+	fill: var(--primary-text-color);
 }
 
 .contact-info__item:not(:last-child) {
@@ -160,7 +186,60 @@ body {
 	height: 100px;
 	object-fit: cover;
 	border: 3px solid;
-	border-color: var(--text-decoration-color);
+	border-color: var(--border-color);
+}
+
+.contact_info_container.favorite {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.contact_info_container.favorite h3 {
+	margin-bottom: 10px;
+	color: var(--secondary-text-color);
+}
+
+.contact_info_container.favorite .red {
+	color: red;
+	cursor: pointer;
+}
+
+.red .contact-info__item-icon path {
+	fill: red;
+}
+
+.contact_info_container.favorite .yellow {
+	color: #f9ae17;
+	cursor: pointer;
+}
+
+.yellow .contact-info__item-icon path {
+	fill: #f9ae17;
+}
+
+.contact_info_container.favorite .green {
+	color: green;
+	cursor: pointer;
+}
+
+.green .contact-info__item-icon path {
+	fill: green;
+}
+
+.contact_info_container.favorite .montserrat {
+	font-family: Montserrat;
+	cursor: pointer;
+}
+
+.contact_info_container.favorite .roboto {
+	font-family: Roboto;
+	cursor: pointer;
+}
+
+.contact_info_container.favorite .cascadia-code {
+	font-family: CascadiaCode;
+	cursor: pointer;
 }
 
 .intro {
@@ -181,7 +260,7 @@ body {
 }
 
 .intro__icon path {
-	fill: var(--text-decoration-color);
+	fill: var(--border-color);
 }
 
 .intro_text {
@@ -198,7 +277,7 @@ body {
 
 .intro_text .header-list:hover {
 	text-decoration: underline;
-	color: var(--text-decoration-color);
+	color: var(--border-color);
 	cursor: pointer;
 }
 
@@ -210,8 +289,8 @@ body {
 	text-align: center;
 	padding: 5px;
 	border-radius: 6px;
-	background-color: var(--background-decoration-color);
-	color: var(--text-decoration-color);
+	background-color: var(--body-background);
+	color: var(--border-color);
 	;
 	transition: 0.5s;
 	visibility: hidden;
@@ -225,9 +304,10 @@ body {
 
 .intro_additional_text ul {
 	position: absolute;
+	z-index: 1;
 	list-style: none;
-	background: var(--background-decoration-color);
-	color: #f5f5f5;
+	background: var(--body-background);
+	color: var(--durability-text-color);
 	padding: 10px 20px;
 	border-radius: 0px 200px 200px 0px;
 	transform: translateX(-100%);
@@ -307,7 +387,8 @@ body {
 }
 
 .experiences__company-header-name:hover {
-	background: var(--text-decoration-color);
+	background: var(--border-color);
+	color: var(--resume-background)
 }
 
 .experiences__company-header-name::before {
@@ -317,7 +398,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 2px;
-	background: var(--text-decoration-color);
+	background: var(--border-color);
 	transition: 0.5s;
 }
 
@@ -333,7 +414,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 2px;
-	background: var(--text-decoration-color);
+	background: var(--border-color);
 	transition: 0.5s;
 }
 
