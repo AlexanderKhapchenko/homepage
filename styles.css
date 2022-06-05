@@ -36,11 +36,42 @@ body {
 }
 
 .resume {
+	--border-width: 3px;
 	margin: 50px auto;
-	border: 1px solid #f5f5f5;
-	box-shadow: 1px 1px 7px 7px #f5f5f5;
 	padding: 30px 0;
 	max-width: 900px;
+	position: relative;
+	background: #fff;
+	border-radius: var(--border-width);
+}
+
+.resume::after {
+	position: absolute;
+	content: "";
+	top: calc(-2 * var(--border-width));
+	left: calc(-2 * var(--border-width));
+	z-index: -1;
+	width: calc(100% + var(--border-width) * 4);
+	height: calc(100% + var(--border-width) * 4);
+	background: linear-gradient(60deg,
+			#5f86f2,
+			#a65ff2,
+			#f25fd0,
+			#f25f61,
+			#f2cb5f,
+			#abf25f,
+			#5ff281,
+			#5ff2f0);
+	background-size: 300% 300%;
+	background-position: 0 50%;
+	border-radius: calc(2 * var(--border-width));
+	animation: moveGradient 4s alternate infinite;
+}
+
+@keyframes moveGradient {
+	50% {
+		background-position: 100% 50%;
+	}
 }
 
 .resume__block {
@@ -175,19 +206,20 @@ body {
 	position: absolute;
 	left: 40px;
 	top: -40px;
-  z-index: 1;
+	z-index: 1;
 	text-align: center;
 	padding: 5px;
-  border-radius: 6px;
-  background-color: var(--background-decoration-color);
-  color: var(--text-decoration-color);;
+	border-radius: 6px;
+	background-color: var(--background-decoration-color);
+	color: var(--text-decoration-color);
+	;
 	transition: 0.5s;
 	visibility: hidden;
 	opacity: 0;
 }
 
-.intro_text .header-list:hover ~ .tooltip {
-  visibility: visible;
+.intro_text .header-list:hover~.tooltip {
+	visibility: visible;
 	opacity: 1;
 }
 
@@ -202,7 +234,7 @@ body {
 	visibility: hidden;
 	opacity: 0;
 	pointer-events: none;
-	transition: 0.5s cubic-bezier(.74,-0.65,1,1.03);
+	transition: 0.5s cubic-bezier(.74, -0.65, 1, 1.03);
 }
 
 .intro_additional_text ul.active {
@@ -210,8 +242,8 @@ body {
 	transform: translateX(0);
 	visibility: visible;
 	opacity: 1;
-	pointer-events:all;
-	transition: 0.5s cubic-bezier(.59,.11,.51,1.29);
+	pointer-events: all;
+	transition: 0.5s cubic-bezier(.59, .11, .51, 1.29);
 }
 
 .intro_additional_text li::before {
@@ -332,6 +364,7 @@ body {
 	color: var(--secondary-text-color);
 	padding-left: 20px;
 }
+
 .additional-info {
 	flex: 1 1 40%;
 	justify-content: start;
