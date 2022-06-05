@@ -257,14 +257,57 @@ body {
 	text-align: left;
 	margin-bottom: 10px;
 	font-size: 15px;
+	display: flex;
+}
+
+.experiences__company-header a {
+	text-decoration: none;
 }
 
 .experiences__company-header-name {
+	position: relative;
 	color: var(--primary-text-color);
-	text-decoration-color: var(--text-decoration-color);
-	text-decoration-line: underline;
+	padding: 5px 10px;
+	display: inline;
 	text-align: left;
 	margin-bottom: 20px;
+	transition: 0.5s 0.2s;
+}
+
+.experiences__company-header-name:hover {
+	background: var(--text-decoration-color);
+}
+
+.experiences__company-header-name::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: var(--text-decoration-color);
+	transition: 0.5s;
+}
+
+.experiences__company-header-name:hover::before {
+	transform: translateY(-30px);
+	background: var(--primary-text-color);
+}
+
+.experiences__company-header-name::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: var(--text-decoration-color);
+	transition: 0.5s;
+}
+
+.experiences__company-header-name:hover::after {
+	transform: translateY(30px);
+	background: var(--primary-text-color);
 }
 
 .experiences__company-project {
@@ -289,9 +332,9 @@ body {
 	color: var(--secondary-text-color);
 	padding-left: 20px;
 }
-
 .additional-info {
 	flex: 1 1 40%;
+	justify-content: start;
 }
 
 .additional-info__education {
@@ -301,6 +344,10 @@ body {
 .additional-info__education-header {
 	color: var(--secondary-text-color);
 	text-align: left;
+	margin-bottom: 20px;
+}
+
+.additional-info__education-university {
 	margin-bottom: 20px;
 }
 
