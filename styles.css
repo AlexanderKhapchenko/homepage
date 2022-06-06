@@ -4,8 +4,8 @@
 }
 
 @font-face {
-  font-family: Roboto;
-  src: url(assets/fonts/Roboto.ttf);
+  font-family: Poppins;
+  src: url(assets/fonts/Poppins.ttf);
 }
 
 @font-face {
@@ -22,7 +22,6 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	line-height: 1.5;
-
 	--body-background: #fff;
 	--resume-background: #eaeaea;
 	--primary-text-color: #181820;
@@ -65,6 +64,7 @@ body {
 
 .resume::after {
 	position: absolute;
+	display: block;
 	content: "";
 	top: calc(-2 * var(--border-width));
 	left: calc(-2 * var(--border-width));
@@ -96,6 +96,12 @@ body {
 	border-bottom: 3px solid var(--border-color);
 	padding-bottom: 30px;
 	margin-bottom: 15px;
+}
+
+@media (max-width: 910px) {
+	.resume::after {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 576px) {
@@ -232,8 +238,8 @@ body {
 	cursor: pointer;
 }
 
-.contact_info_container.favorite .roboto {
-	font-family: Roboto;
+.contact_info_container.favorite .poppins {
+	font-family: Poppins;
 	cursor: pointer;
 }
 
@@ -494,4 +500,73 @@ body {
 
 .additional-info__languages-item {
 	color: var(--secondary-text-color);
+}
+
+.flashlight {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background: #000;
+	pointer-events: none;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.flashlight.active {
+	visibility: visible;
+	opacity: 1;
+}
+
+.score-counter {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 20px;
+	color: var(--secondary-text-color);
+}
+
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 300px;
+	max-width: 450px;
+	height: 500px;
+	z-index: 3;
+	color: var(--secondary-text-color); 
+	background: rgba(255, 255, 255, 0.14);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(9.6px);
+	-webkit-backdrop-filter: blur(9.6px);
+	border: 1px solid rgba(255, 255, 255, 0.39);
+	padding: 10px;
+	display: none;
+	justify-content: center;
+}
+
+.popup.active {
+	display: flex;
+}
+
+
+.popup .info-container {
+	margin: 50px;
+	display: grid;
+	grid-template-rows: 1fr 1fr 10fr;
+	grid-gap: 10px;
+	font-size: 1.3rem;
+	text-align: center;
+}
+
+.popup .seconds {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 10rem;
+	color: var(--primary-text-color);
 }
