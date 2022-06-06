@@ -36,7 +36,7 @@ const favoriteColors = [
 
 const favoriteFonts = [
 	document.querySelector('.contact_info_container.favorite .montserrat'),
-	document.querySelector('.contact_info_container.favorite .roboto'),
+	document.querySelector('.contact_info_container.favorite .poppins'),
 	document.querySelector('.contact_info_container.favorite .cascadia-code')
 ];
 
@@ -93,8 +93,8 @@ const setFontFamily = (font) => {
 const onclickFavorite = (array, key) => {
 	array.forEach(item => {
 		item.onclick = () => {
-			const value = item.querySelector('span').innerText.toLowerCase();
-			key === localStorageKey.font ? setFontFamily(value) : setTextColor(themes[value]);
+			const value = item.querySelector('span').innerText;
+			key === localStorageKey.font ? setFontFamily(value) : setTextColor(themes[value.toLowerCase()]);
 		}
 	});
 }	
@@ -109,3 +109,102 @@ window.addEventListener("DOMContentLoaded", () => {
 	const font = localStorage.getItem(localStorageKey.font);
 	font && setFontFamily(font);
 });
+
+const getPageHeight = () => Math.max(
+  document.body.scrollHeight,
+  document.body.offsetHeight, 
+	document.body.clientHeight, 
+	document.documentElement.offsetHeight,
+	document.documentElement.clientHeight
+);
+
+const scoreElements = document.querySelectorAll('.score-element');
+const currentScore = document.querySelector('.score-counter .current');
+const maxScore = document.querySelector('.score-counter .max');
+maxScore.innerText = scoreElements.length;
+
+const popup = document.querySelector('.popup');
+const popupTitle = popup.querySelector('.title');
+const popupMessage = popup.querySelector('.message');
+const popupSeconds = popup.querySelector('.seconds');
+
+const flashlight = document.querySelector('.flashlight');
+flashlight.style.height = `${getPageHeight()}px`;
+
+let score = 0;
+let clicked = [];
+scoreElements.forEach(item => {
+	item.addEventListener('click',() => {
+		if(!clicked.includes(item)) {
+			clicked.push(item);
+			score++;
+			currentScore.innerText = score;
+
+			if (score  >= scoreElements.length) {
+				showHint({
+					title: `So you can found ${score} of ${scoreElements.length} clickable items`,
+					message: `It's very cool, that we can light on on page for you`,
+					seconds: 5,
+					toDoAfterEnd: lightOn
+				});
+			} else if(score === scoreElements.length - 2) {
+				showHint({
+					title: `So you can find all ${scoreElements.length} clickable items`,
+					message: `So now it's time to turn on the page light`,
+					seconds: 3,
+					showSecondsElement: popupSeconds,
+					toDoAfterEnd: lightOff
+				});
+			}
+		}
+	});
+});
+
+const showHint = ({title, message, seconds, showSecondsElement, toDoAfterEnd}) => {
+	if(!popup.classList.contains('active')) {
+		popupTitle.innerText = title;
+		popupMessage.innerText = message;
+		popup.classList.add('active');
+		let seconds2 = seconds;
+
+		const intervalId = setInterval(() => {
+			seconds2--;
+			if (showSecondsElement) {
+				showSecondsElement.innerText = seconds2;
+			}
+		}, 1000);
+
+		setTimeout(() => {
+			clearInterval(intervalId);
+			if (showSecondsElement) {
+				showSecondsElement.innerText = '';
+			}
+			if (toDoAfterEnd) {
+				toDoAfterEnd();
+			}
+			popup.classList.remove('active');
+		}, (seconds + 1) * 1000);
+	}
+}
+
+const lightOn = () => {
+	flashlight.classList.remove('active');
+	window.removeEventListener("resize", resizeListener);
+	document.removeEventListener("mousemove", mousemoveListener);
+}
+
+const lightOff = () => {
+	flashlight.classList.add('active');
+	window.addEventListener("resize", resizeListener);
+	document.addEventListener("mousemove", mousemoveListener);
+}
+
+const resizeListener = () => {
+	flashlight.style.height = `${getPageHeight()}px`;
+}
+
+const mousemoveListener = (e) => {
+	const x = e.pageX;
+	const y = e.pageY;
+	flashlight.style.background = `radial-gradient(circle at ${x}px ${y}px, transparent, #000 20%)`;
+}
