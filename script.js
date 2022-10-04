@@ -1,30 +1,28 @@
 const introText = document.querySelector('.intro_text');
 const introHeaderList = introText.querySelector('.header-list');
 const introList = document.querySelector('.intro_additional_text ul');
-const tooltiplIntroText = document.querySelector('.intro_text .tooltip');
+const tooltipIntroText = document.querySelector('.intro_text .tooltip');
 let isPickIntro = false;
 
-const hideAdditionalIntroText = () => {
+const hideAdditionalIntroText = () =>
 	introList.classList.remove('active');
-}
 
-const showAdditionalIntroText = () => {
+const showAdditionalIntroText = () =>
 	introList.classList.add('active');
-}
 
 introHeaderList.onmouseenter = showAdditionalIntroText;
 
 introText.onclick = () => {
 	isPickIntro = !isPickIntro;
-	tooltiplIntroText.innerText = isPickIntro ? 'Pinned' : 'Unpinned';
+	tooltipIntroText.innerText = isPickIntro ? 'Pinned' : 'Unpinned';
 }
 
 introText.onmouseleave = () => {
 	if (!isPickIntro) {
 		 hideAdditionalIntroText();
 		 setTimeout(() => {
-			tooltiplIntroText.innerText = 'Click to pin that';
-		}, 500); 
+			tooltipIntroText.innerText = 'Click to pin that';
+		}, 500);
 	}
 }
 
@@ -54,7 +52,7 @@ const themes = {
 		durabilityTextColor: '#c6c6c69c',
 		iconColor: '#6a737d',
 		borderColor: '#01e909bb',
-	}, 
+	},
 	red: {
 		bodyBackground: '#f8b786',
 		resumeBackground: '#f4f6ec',
@@ -63,7 +61,7 @@ const themes = {
 		durabilityTextColor: '#98514b',
 		iconColor: '#5b5553',
 		borderColor: '#2d0c03',
-	}, 
+	},
 	yellow: {
 		bodyBackground: '#dcdcdc',
 		resumeBackground: '#fdffcc',
@@ -75,8 +73,8 @@ const themes = {
 	}
 }
 
-const kebabize = (str) => 
-	str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase())
+const kebabize = (str) =>
+	str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? '-' : '') + $.toLowerCase())
 
 const setTextColor = (selectedTheme) => {
 	for(let key in selectedTheme) {
@@ -97,12 +95,12 @@ const onclickFavorite = (array, key) => {
 			key === localStorageKey.font ? setFontFamily(value) : setTextColor(themes[value.toLowerCase()]);
 		}
 	});
-}	
+}
 
 onclickFavorite(favoriteColors, localStorageKey.color);
 onclickFavorite(favoriteFonts, localStorageKey.font);
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
 	const color = localStorage.getItem(localStorageKey.color);
 	color && setTextColor(JSON.parse(color));
 
@@ -111,9 +109,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 const getPageHeight = () => Math.max(
-  document.body.scrollHeight,
-  document.body.offsetHeight, 
-	document.body.clientHeight, 
+	document.body.scrollHeight,
+	document.body.offsetHeight,
+	document.body.clientHeight,
 	document.documentElement.offsetHeight,
 	document.documentElement.clientHeight
 );
@@ -140,17 +138,18 @@ scoreElements.forEach(item => {
 			score++;
 			currentScore.innerText = score;
 
-			if (score  >= scoreElements.length) {
+			if (score >= scoreElements.length) {
 				showHint({
 					title: `So you can found ${score} of ${scoreElements.length} clickable items`,
-					message: `It's very cool, that we can light on on page for you`,
+					message: `It's really great that we can light up the page for you`,
 					seconds: 5,
+					showSecondsElement: popupSeconds,
 					toDoAfterEnd: lightOn
 				});
 			} else if(score === scoreElements.length - 2) {
 				showHint({
 					title: `So you can find all ${scoreElements.length} clickable items`,
-					message: `So now it's time to turn on the page light`,
+					message: `So, it's time to turn off the lights on the page`,
 					seconds: 3,
 					showSecondsElement: popupSeconds,
 					toDoAfterEnd: lightOff
@@ -189,14 +188,14 @@ const showHint = ({title, message, seconds, showSecondsElement, toDoAfterEnd}) =
 
 const lightOn = () => {
 	flashlight.classList.remove('active');
-	window.removeEventListener("resize", resizeListener);
-	document.removeEventListener("mousemove", mousemoveListener);
+	window.removeEventListener('resize', resizeListener);
+	document.removeEventListener('mousemove', mousemoveListener);
 }
 
 const lightOff = () => {
 	flashlight.classList.add('active');
-	window.addEventListener("resize", resizeListener);
-	document.addEventListener("mousemove", mousemoveListener);
+	window.addEventListener('resize', resizeListener);
+	document.addEventListener('mousemove', mousemoveListener);
 }
 
 const resizeListener = () => {
