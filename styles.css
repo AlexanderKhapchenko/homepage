@@ -432,6 +432,7 @@ body {
 .experiences__company-project {
 	margin-left: 15px;
 	margin-bottom: 25px;
+	margin-top: 15px;
 }
 
 .experiences__company-project-role {
@@ -500,6 +501,18 @@ body {
 
 .additional-info__languages-item {
 	color: var(--secondary-text-color);
+	cursor: pointer;
+	transition: 0.2s;
+	padding-left: 5px;
+}
+
+.additional-info__languages-item:hover {
+	background: var(--border-color);
+	color: var(--resume-background);
+}
+
+.additional-info__languages-item.active::before {
+	content: '✔  ';
 }
 
 .flashlight {
@@ -537,7 +550,7 @@ body {
 	max-width: 450px;
 	height: 500px;
 	z-index: 3;
-	color: var(--secondary-text-color); 
+	color: var(--secondary-text-color);
 	background: rgba(255, 255, 255, 0.14);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
