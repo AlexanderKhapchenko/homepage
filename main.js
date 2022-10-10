@@ -1,3 +1,15 @@
+import { localStorageKey } from "./enums/local-storage-key.js";
+import { themes } from "./enums/themes.js";
+import {
+		defaultLanguage,
+		lang,
+		tooltip,
+		scoreGame,
+		langSelectors,
+		changeTextSelectors,
+		alphabet
+} from './enums/lang.js';
+
 const introText = document.querySelector('.intro_text');
 const introHeaderList = introText.querySelector('.header-list');
 const introList = document.querySelector('.intro_additional_text ul');
@@ -12,24 +24,22 @@ const showAdditionalIntroText = () =>
 
 introHeaderList.onmouseenter = showAdditionalIntroText;
 
+const getActiveLang = () => localStorage.getItem(localStorageKey.lang) || defaultLanguage;
+
 introText.onclick = () => {
 	isPickIntro = !isPickIntro;
-	const currentLang = localStorage.getItem(localStorageKey.lang) || 'en';
+	const currentLang = getActiveLang();
 	tooltipIntroText.innerText = isPickIntro
-		? currentLang === 'en'
-			? 'Pinned'
-			: 'Закріплено'
-		: currentLang === 'en'
-			? 'Unpinned'
-			: 'Незакріплено';
+		? tooltip[currentLang].pinned
+		: tooltip[currentLang].unpinned;
 }
 
 introText.onmouseleave = () => {
 	if (!isPickIntro) {
 		 hideAdditionalIntroText();
-		const currentLang = localStorage.getItem(localStorageKey.lang) || 'en';
+		const currentLang = getActiveLang();
 		 setTimeout(() => {
-			tooltipIntroText.innerText = currentLang === 'en' ? 'Click to pin that' : 'Натисніть, щоб закріпити це';
+			tooltipIntroText.innerText = tooltip[currentLang].helper;
 		}, 500);
 	}
 }
@@ -45,42 +55,6 @@ const favoriteFonts = [
 	document.querySelector('.contact_info_container.favorite .poppins'),
 	document.querySelector('.contact_info_container.favorite .cascadia-code')
 ];
-
-const localStorageKey = {
-	color: 'color',
-	font: 'font',
-	lang: 'lang',
-}
-
-const themes = {
-	green: {
-		bodyBackground: '#141414',
-		resumeBackground: '#141414',
-		primaryTextColor: '#eaeaea',
-		secondaryTextColor: '#e3e3e3',
-		durabilityTextColor: '#c6c6c69c',
-		iconColor: '#6a737d',
-		borderColor: '#01e909bb',
-	},
-	red: {
-		bodyBackground: '#f8b786',
-		resumeBackground: '#f4f6ec',
-		primaryTextColor: '#ff1a4a',
-		secondaryTextColor: '#2d0c03',
-		durabilityTextColor: '#98514b',
-		iconColor: '#5b5553',
-		borderColor: '#2d0c03',
-	},
-	yellow: {
-		bodyBackground: '#dcdcdc',
-		resumeBackground: '#fdffcc',
-		primaryTextColor: '#f9ae17',
-		secondaryTextColor: '#AC132A',
-		durabilityTextColor: '#740819',
-		iconColor: '#740819',
-		borderColor: '#540A15',
-	}
-}
 
 const kebabize = (str) =>
 	str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? '-' : '') + $.toLowerCase())
@@ -138,27 +112,29 @@ scoreElements.forEach(item => {
 			clicked.push(item);
 			score++;
 			currentScore.innerText = score;
-			const currentLang = localStorage.getItem(localStorageKey.lang) || 'en';
 			if (score >= scoreElements.length) {
 				showHint({
-					title: currentLang === 'en'
-						? `So you can found ${score} of ${scoreElements.length} clickable items`
-						: `Щож, ви знайшли ${score} з ${scoreElements.length} клікабельних елементів`,
-					message: currentLang === 'en'
-						? `I am very pleased that I can now cover this page for you`
-						: `Дуже приємно, що тепер я можу висвітлити цю сторінку для вас`,
+					title: scoreGame.gameFinished.title({
+						lang: getActiveLang(),
+						currentScore: score,
+						maxScore: scoreElements.length,
+					}),
+					message: scoreGame.gameFinished.message({
+						lang: getActiveLang(),
+					}),
 					seconds: 5,
 					showSecondsElement: popupSeconds,
 					toDoAfterEnd: lightOn
 				});
 			} else if(score === scoreElements.length - 2) {
 				showHint({
-					title: currentLang === 'en'
-						? `So I guess you can find all the ${scoreElements.length} elements you can click on`
-						: `Щож, я гадаю, що ви можете знайти всі елементи ${scoreElements.length}, на які можна натиснути`,
-					message: currentLang === 'en'
-						? `But it's time to turn off the light on the page`
-						: `Але час вимкнути світло на сторінці`,
+					title: scoreGame.gameStarted.title({
+						lang: getActiveLang(),
+						maxScore: scoreElements.length,
+					}),
+					message: scoreGame.gameFinished.message({
+						lang: getActiveLang(),
+					}),
 					seconds: 3,
 					showSecondsElement: popupSeconds,
 					toDoAfterEnd: lightOff
@@ -219,7 +195,7 @@ const mousemoveListener = (e) => {
 
 const changeLanguage = ({ selectedLang, withAnimation = true }) => {
 	const getRandomLetters = (string) => {
-		const chars = selectedLang === 'en' ? 'abcdefghijklmnopqrstuvwxyz' : 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя';
+		const chars = selectedLang === defaultLanguage ? alphabet.en : alphabet.ua;
 		const length = string.replace(/\s/g, '').length;
 		const iterations = length > 20 ? 20 : length;
 		let str = '';
@@ -262,7 +238,7 @@ const changeLanguage = ({ selectedLang, withAnimation = true }) => {
 
 
 	Object.entries(lang[selectedLang]).forEach(([key, value]) => {
-		const elements = document.querySelectorAll(`[data-text="${key}"`);
+		const elements = document.querySelectorAll(changeTextSelectors.render(key));
 		if (!elements.length) {
 			console.warn(`Missed elements with key: ${key}`);
 		}
@@ -298,8 +274,12 @@ window.addEventListener('DOMContentLoaded', () => {
 	const font = localStorage.getItem(localStorageKey.font);
 	font && setFontFamily(font);
 
-	const selectedLang = localStorage.getItem(localStorageKey.lang);
-	const langSelector = selectedLang ? `[data-lang="${selectedLang}"]` : `[data-lang="en"]`;
+	const selectedLang = getActiveLang();
+	const langSelector = selectedLang ? langSelectors.render(selectedLang) : langSelectors.en;
 	document.querySelector(langSelector).classList.add('active');
-	selectedLang && selectedLang !== 'en' && changeLanguage({ selectedLang, withAnimation: false });
+	selectedLang !== defaultLanguage
+		&& changeLanguage({
+			selectedLang,
+			withAnimation: false
+		});
 });
