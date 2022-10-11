@@ -27,7 +27,7 @@ const lang = {
         experience: "Досвід роботи",
         education: "Освіта",
         robocodePosition: "Вчитель",
-        robocodeSubheader: "Виноградар-11",
+        robocodeSubheader: "Офлайн освіта",
         robocodeDuties: [
             "Навчанав дітей роботі з мікроконтролерами, створювання ігор та сайтів",
             "Керування викладацьким складом",
@@ -35,7 +35,7 @@ const lang = {
             "Вирішувати конфлікти",
         ],
         edisonPosition: "Директор",
-        edisonSubheader: "Просто зробіть маленьких українців кращими",
+        edisonSubheader: "Робіть маленьких українців кращими",
         edisonDuties: [
             "Створення навчальної програми для створення ігор та сайтів",
             "Навчання дітей створенню ігор та сайтів",
@@ -85,7 +85,7 @@ const lang = {
         experience: "Experience",
         education: "Education",
         robocodePosition: "Teacher",
-        robocodeSubheader: "Vinohradar-11",
+        robocodeSubheader: "Offline Education",
         robocodeDuties: [
             "Teaching children Embedded, GameDev, WebDev",
             "Lead the faculty",
@@ -93,7 +93,7 @@ const lang = {
             "Resolve conflicts",
         ],
         edisonPosition: "CEO",
-        edisonSubheader: "Just make the little Ukrainians better",
+        edisonSubheader: "Make little Ukrainians better",
         edisonDuties: [
             "Creating a GameDev and WebDev training program",
             "Teaching children GameDev and WebDev",
@@ -112,7 +112,7 @@ const lang = {
         ukrainian: "Ukrainian (native speaker)",
         english: "English (Intermediate)",
         now: "now",
-        found: "found",
+        found: "Found",
         of: "of",
         clickable: "clickable items",
         pin: "Click to pin or unpin that",
